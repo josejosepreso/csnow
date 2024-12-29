@@ -15,10 +15,10 @@ int main(void)
   ncols = getmaxx(win);
 
   Snowflake *snowflakes[nrows];
-  int counter = 0;
 
   curs_set(0);
 
+  int counter = 0;
   for(;;) {
     if(counter < nrows) {
       Snowflake *snowflake = malloc(sizeof(Snowflake *));

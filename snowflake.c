@@ -1,41 +1,39 @@
 #include <curses.h>
+#include <stdio.h>
 #include "snowflake.h"
 
 void move_c(Snowflake *snowflakes[], int snowflakesSize)
 {
+  int x, y, speed;
   for(int i = 0; i < snowflakesSize; i++) {
 
-    Snowflake *current = snowflakes[i];
-
-    int y = current->y;
-    int x = current->x;
+    y = snowflakes[i]->y;
+    x = snowflakes[i]->x;
+    speed = snowflakes[i]->speed;
 
     move(y, x);
-
     delch();
 
-    if(y >= nrows - 1 || x >= ncols - 1) {
-      current->x = current->x0;
-      current->y = -1;
+    y += 1;
+    x += speed;
+
+    if(y == nrows || x >= ncols - 1) {
+      x = snowflakes[i]->x0;
+      y = 0;
     }
 
-    current->y++;
-    y = current->y;
-
-    current->x += current->speed;
- 
-    x = current->x;
-
     move(y, x);
-
     insch(C);
+
+    snowflakes[i]->x = x;
+    snowflakes[i]->y = y;
   }
 }
 
 void draw(Snowflake *snowflake, int x, int speed)
 {
   snowflake->x = x;
-  snowflake->x0 = x;
+  snowflake->x0 = snowflake->x;
   snowflake->y = 0;
   snowflake->speed = speed;
   
